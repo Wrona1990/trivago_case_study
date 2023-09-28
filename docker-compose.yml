@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  api_service:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - trivago-mysql-net
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/trivago?allowPublicKeyRetrieval=true
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: "mysql:8.0.0"
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - trivago-mysql-net
+    environment:
+      MYSQL_DATABASE: trivago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: rootroot1234
+networks:
+  trivago-mysql-net:
